@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <android.support.text.emoji.widget.EmojiAppCompatTextView
+            android:id="@+id/emoji_btn_tong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="tong"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/emoji_btn_tong_wink"
+            app:layout_constraintStart_toEndOf="@+id/emoji_btn_tong_wink" />
+
+        <android.support.text.emoji.widget.EmojiAppCompatTextView
+            android:id="@+id/emoji_btn_tong_wink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="tong wink"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.text.emoji.widget.EmojiAppCompatTextView
+            android:id="@+id/emoji_btn_wink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:text="wink"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/emoji_btn_tong_wink"
+            app:layout_constraintEnd_toStartOf="@+id/emoji_btn_tong_wink" />
+
+        <android.support.text.emoji.widget.EmojiAppCompatTextView
+            android:id="@+id/emoji_btn_smirk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:text="smirk"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/emoji_btn_smile"
+            app:layout_constraintEnd_toStartOf="@+id/emoji_btn_smile" />
+
+        <android.support.text.emoji.widget.EmojiAppCompatTextView
+            android:id="@+id/emoji_btn_smile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="smile"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emoji_btn_tong_wink" />
+
+        <android.support.text.emoji.widget.EmojiAppCompatTextView
+            android:id="@+id/emoji_btn_scream"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="scream"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/emoji_btn_smile"
+            app:layout_constraintStart_toEndOf="@+id/emoji_btn_smile" />
+
+
+        <android.support.text.emoji.widget.EmojiAppCompatTextView
+            android:id="@+id/emoji_btn_relaxed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="relaxed"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/emoji_btn_rage"
+            app:layout_constraintStart_toEndOf="@+id/emoji_btn_rage" />
+
+        <android.support.text.emoji.widget.EmojiAppCompatTextView
+            android:id="@+id/emoji_btn_rage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="rage"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emoji_btn_smile" />
+
+        <android.support.text.emoji.widget.EmojiAppCompatTextView
+            android:id="@+id/emoji_btn_laughing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:text="laugh"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/emoji_btn_flushed"
+            app:layout_constraintEnd_toStartOf="@+id/emoji_btn_flushed" />
+
+        <android.support.text.emoji.widget.EmojiAppCompatTextView
+            android:id="@+id/emoji_btn_kissing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:text="kiss"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/emoji_btn_rage"
+            app:layout_constraintEnd_toStartOf="@+id/emoji_btn_rage" />
+
+        <android.support.text.emoji.widget.EmojiAppCompatTextView
+            android:id="@+id/emoji_btn_flushed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:text="flushed"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emoji_btn_rage" />
+
+        <android.support.text.emoji.widget.EmojiAppCompatTextView
+            android:id="@+id/emoji_btn_disapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="disapp"
+            android:textColor="@android:color/black"
+            android:textSize="30sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/emoji_btn_flushed"
+            app:layout_constraintStart_toEndOf="@+id/emoji_btn_flushed" />
+
+    </android.support.constraint.ConstraintLayout>
+    </ScrollView>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorBlack">#FF000000</color>
+    <color name="colorPrimary">#a2d9ef</color>
+    <color name="colorPrimaryShadow">#96c9dd</color>
+    <color name="colorPrimaryDark">#253e5c</color>
+    <!--<color name="colorAccent">#f07995</color>-->
+    <color name="colorAccent">#f05d5e</color>
+    <color name="colorWhiteAsEggs">#fafafa</color>
+    <color name="colorLightGrey">#efefef</color>
+    <color name="colorDarkGrey">#FF414141</color>
+    <color name="colorVermilion">#d64933</color>
+    <color name="colorChatBackground">#e6e6e6</color>
+    <color name="colorChatBackgroundShadow">#FFDADADA</color>
+</resources>
