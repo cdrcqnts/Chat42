@@ -1,8 +1,11 @@
 package cq.chat42;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Point;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,11 +21,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -85,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
 
     IconicsImageView btn_emoji, btn_send;
     XEditText txt_send;
-    FloatingActionButton btn_read, btn_current_emoji;
+    FloatingActionButton btn_current_emoji;
     TextView txt_current_emoij;
 
     RelativeLayout bottom;
@@ -155,9 +160,7 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
         txt_send = findViewById(R.id.txt_send);
         txt_send.setEnabled(true);
 
-        btn_read = findViewById(R.id.fab_read_new_msg);
         btn_current_emoji = findViewById(R.id.fab_current_emoji);
-        btn_read.hide();
         btn_current_emoji.hide();
         btn_current_emoji.setEnabled(false);
 
@@ -264,32 +267,18 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
             public void onRefresh(SwipyRefreshLayoutDirection direction) {
                 if (aux.internetIsAvailable()) {
                     if (mNotYetRead != null) {
-                        deactivateButtons();
+                        //deactivateButtons();
+                        mSwipeLayout.setEnabled(false);
                         sendSeenReceipt(mNotYetRead);
                     }
                 } else {
-                    snackbar.setText(aux.MSG_ERR_INTERNET);
+                    snackbar.setText(Aux.MSG_ERR_INTERNET);
                     snackbar.show();
                     if (mSwipeLayout.isRefreshing()) {
                         mSwipeLayout.setRefreshing(false);
                     }
                 }
 
-            }
-        });
-
-        btn_read.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (aux.internetIsAvailable()) {
-                    if (mNotYetRead != null) {
-                        deactivateButtons();
-                        sendSeenReceipt(mNotYetRead);
-                    }
-                } else {
-                    snackbar.setText(aux.MSG_ERR_INTERNET);
-                    snackbar.show();
-                }
             }
         });
 
@@ -301,8 +290,21 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                updateBtnSend();
-                Log.d(TAG, "onTextChanged: " + s);
+                String msg = txt_send.getText().toString().trim();
+                // if there are no new messages
+                if (mNotYetRead == null) {
+                    // if user has typed a message
+                    if (msg.length() == 0) {
+                        if (!txt_send.getHint().toString().equals("Type a message")) {
+                            txt_send.setHint("Type a message");
+                        }
+                        btn_send.setEnabled(false);
+                        btn_send.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorLightGrey));
+                    } else {
+                        btn_send.setEnabled(true);
+                        btn_send.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorDarkGrey));
+                    }
+                }
             }
 
             @Override
@@ -315,20 +317,25 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
             @Override
             public void onClick(View v) {
                 if (aux.internetIsAvailable()) {
+                    // send msg
                     if (mNotYetRead == null) {
                         String msg = txt_send.getText().toString().trim();
                         if (!msg.equals("")) {
-                            deactivateButtons();
+                            //deactivateButtons();
+                            mSwipeLayout.setEnabled(false);
                             notify = true;
                             txt_send.setText("");
                             sendMessage(uid, pid, msg);
                         }
-                    } else {
-                        snackbar.setText(aux.MSG_NEW_MESSAGES);
-                        snackbar.show();
+                    }
+                    // read msg
+                    else {
+                        //deactivateButtons();
+                        mSwipeLayout.setEnabled(false);
+                        sendSeenReceipt(mNotYetRead);
                     }
                 } else {
-                    snackbar.setText(aux.MSG_ERR_INTERNET);
+                    snackbar.setText(Aux.MSG_ERR_INTERNET);
                     snackbar.show();
                 }
 
@@ -339,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
             @Override
             public void onClick(View v) {
 
-                if (flavour.equals(aux.GROUP_A)) {
+                if (flavour.equals(Aux.GROUP_A)) {
                     // emoji dialog
                     openEmojiDialog();
                 } else {
@@ -377,7 +384,7 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        if (flavour.equals(aux.GROUP_C) && mNotYetReacted != null) {
+        if (flavour.equals(Aux.GROUP_C) && mNotYetReacted != null) {
             sendEmojiReceipt(mNotYetReacted);
         }
     }
@@ -388,34 +395,33 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
         reference.child(fuser.getUid()).setValue(token1);
     }
 
-    private void deactivateButtons() {
-        mSwipeLayout.setEnabled(false);
-        btn_read.hide();
-        btn_send.setEnabled(false);
-        btn_send.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorLightGrey));
-    }
-
     private void sendSeenReceipt(final Chat chat) {
         // if i received a message from my partner and the message has not been seen yet
         // i send seen = ✔
+        btn_send.setEnabled(false);
+        btn_send.setIcon("gmd-watch-later");
+        btn_send.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorLightGrey));
+        txt_send.setHint("Loading ...");
 
         // disable live emoj preview when reading starts
         disableBtnEmoji();
-
+        String emojiCheck;
         lastEmoji = emojiMouthless;
-        String emojiCheck = getApplicationContext().getResources().getString(R.string.emoji_heavy_checkmark);
+        emojiCheck = getApplicationContext().getResources().getString(R.string.emoji_heavy_checkmark);
         //DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         reference_chats.child(chat.getId()).child("seen").setValue(emojiCheck).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    mNotYetRead = null;
+                    //mNotYetRead = null;
                     mNotYetReacted = chat;
-                    readMessages(uid, pid, pusername);
+                    //readMessages(uid, pid, pusername);
                 }
                 if (mSwipeLayout.isRefreshing()) {
                     mSwipeLayout.setRefreshing(false);
                 }
+                txt_send.setHint("Type a message");
+                btn_send.setEnabled(true);
             }
         });
     }
@@ -424,7 +430,7 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
         btn_emoji.setEnabled(false);
         btn_emoji.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorLightGrey));
 
-        if (!flavour.equals(aux.GROUP_A)) {
+        if (!flavour.equals(Aux.GROUP_A)) {
             hideBtnCurrentEmoji();
         }
     }
@@ -434,12 +440,12 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
         btn_emoji.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorDarkGrey));
     }
 
-    private void enableBtnCurrentEmoji() {
-        if (!btn_current_emoji.isShown()) {
-            btn_current_emoji.show();
-            txt_current_emoij.setVisibility(View.VISIBLE);
-        }
-    }
+//    private void enableBtnCurrentEmoji() {
+//        if (!btn_current_emoji.isShown()) {
+//            btn_current_emoji.show();
+//            txt_current_emoij.setVisibility(View.VISIBLE);
+//        }
+//    }
 
     private void hideBtnCurrentEmoji() {
         if (btn_current_emoji.isShown()) {
@@ -455,44 +461,33 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
         if (lastEmoji.equals(emojiMouthless)) {
             emoji = lastEmoji;
         }
-        else if ((currentEmoji.equals(emojiUnknown) && lastEmoji.equals(emojiUnknown)) || !currentEmoji.equals(emojiUnknown)) {
+        else if (!currentEmoji.equals(emojiUnknown) || lastEmoji.equals(emojiUnknown)) {
             emoji = currentEmoji;
         }
         else {
             emoji = lastEmoji;
         }
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         reference_chats.child(chat.getId()).child("seen").setValue(emoji).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     mNotYetReacted = null;
-                    readMessages(uid, pid, pusername);
                 } else {
-                    snackbar.setText(aux.MSG_EMOJI_RECEIPT);
+                    snackbar.setText(Aux.MSG_EMOJI_RECEIPT);
                     snackbar.show();
                 }
-
-                // enable live emoj preview when reading ends
-//                if (flavour.equals(aux.GROUP_C)) {
-//                    btn_emoji.setEnabled(true);
-//                    btn_emoji.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorDarkGrey));
-//
-//                    if (!btn_current_emoji.isShown()) {
-//                        btn_current_emoji.show();
-//                        txt_current_emoij.setVisibility(View.VISIBLE);
-//                    }
-//                }
             }
         });
     }
 
     private void sendMessage(String sender, final String receiver, final String message) {
-        //DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        String id = reference_chats.push().getKey();
-        Date today = new Date();
+        btn_send.setEnabled(false);
+        btn_send.setIcon("gmd-watch-later");
+        btn_send.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorLightGrey));
+        txt_send.setHint("Sending ...");
 
+        String id = reference_chats.push().getKey();
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id", id);
@@ -506,10 +501,16 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
         reference_chats.child(id).setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                txt_send.setHint("Type a message");
                 if (task.isSuccessful()) {
-
-                } else {
+                    btn_send.setEnabled(false);
+                    btn_send.setIcon("gmd-send");
+                    btn_send.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorLightGrey));
+                }
+                else {
                     txt_send.setText(message);
+                    btn_send.setEnabled(true);
+                    btn_send.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorDarkGrey));
                 }
             }
         });
@@ -578,11 +579,19 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
 
     private void readMessages(final String uid, final String pid, final String pusername) {
         mChat = new ArrayList<>();
+
+        if (flavour.equals(Aux.GROUP_C) && mNotYetReacted != null) {
+            sendEmojiReceipt(mNotYetReacted);
+        }
+
         reference_chats.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mChat.clear();
                 countUnread = 0;
+                mNotYetRead = null;
+                String emojiCheck = getApplicationContext().getResources().getString(R.string.emoji_heavy_checkmark);
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Chat chat = snapshot.getValue(Chat.class);
                     Boolean partnerSend = chat.getReceiver().equals(uid) && chat.getSender().equals(pid);
@@ -595,41 +604,32 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
                                 mNotYetRead = chat;
                             }
                         } else {
+                            // validate emoji receipt
+                            if (partnerSend && chat.getSeen().equals(emojiCheck)) {
+                                mNotYetReacted = chat;
+                            }
                             mChat.add(chat);
                         }
                     }
                 }
-
-                if (countUnread == 0) {
+                if (mNotYetRead == null) {
                     // no new messages
                     getSupportActionBar().setTitle(pusername);
-                    mSwipeLayout.setEnabled(false);
-                    bottom.setBackgroundResource(R.drawable.border_new_message_off);
-                    bottom.setPadding(5, 10, 5, 5);
-                    //txt_send.setEnabled(true);
-                    btn_read.hide();
+
                     enableBtnEmoji();
+                    setButtonsToSend();
+
                 } else {
                     // new messages!
                     getSupportActionBar().setTitle(pusername + " (" + countUnread + ")");
-                    mSwipeLayout.setEnabled(true);
-                    bottom.setBackgroundResource(R.drawable.border_new_message_on);
-                    bottom.setPadding(5, 10, 5, 5);
-                    //txt_send.setEnabled(false);
-                    btn_read.show();
+
                     disableBtnEmoji();
+                    setButtonsToRead();
+
                 }
 
-                String msg = txt_send.getText().toString().trim();
-
-                // disable btn_send if new message comes in while writing
-                if (msg.length() != 0 && mNotYetRead == null) {
-                    btn_send.setEnabled(true);
-                    btn_send.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorDarkGrey));
-                } else {
-                    btn_send.setEnabled(false);
-                    btn_send.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorLightGrey));
-                }
+//                String msg = txt_send.getText().toString().trim();
+//                updateBtnSend();
 
                 messageAdapter = new MessageAdapter( MainActivity.this, mChat, pusername);
                 recyclerView.setAdapter(messageAdapter);
@@ -643,9 +643,28 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
         });
     }
 
-    private void updateBtnSend() {
+    private void setButtonsToRead() {
+        mSwipeLayout.setEnabled(true);
+        bottom.setBackgroundResource(R.drawable.border_new_message_on);
+        bottom.setPadding(5, 10, 5, 5);
+
+        btn_send.setEnabled(true);
+        btn_send.setIcon("gmd-email");
+        btn_send.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorAccent));
+
+    }
+
+    private void setButtonsToSend() {
+        mSwipeLayout.setEnabled(false);
+        bottom.setBackgroundResource(R.drawable.border_new_message_off);
+        bottom.setPadding(5, 10, 5, 5);
+
+        btn_send.setIcon("gmd-send");
+
         String msg = txt_send.getText().toString().trim();
-        if (msg.length() == 0 || mNotYetRead != null) {
+        // if user has typed a message
+        if (msg.length() == 0) {
+            txt_send.setHint("Type a message");
             btn_send.setEnabled(false);
             btn_send.getIcon().color(ContextCompat.getColor(getApplicationContext(),R.color.colorLightGrey));
         } else {
@@ -686,7 +705,7 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
         super.onResume();
         status(true);
         currentUser(uid);
-        if (!flavour.equals(aux.GROUP_A)) {
+        if (!flavour.equals(Aux.GROUP_A)) {
             startDetector();
         }
     }
@@ -696,13 +715,16 @@ public class MainActivity extends AppCompatActivity implements cq.chat42.EmojiDi
         super.onPause();
         status(false);
         currentUser("none");
-        if (!flavour.equals(aux.GROUP_A)) {
+        if (!flavour.equals(Aux.GROUP_A)) {
             stopDetector();
         }
 
-        if (flavour.equals(aux.GROUP_C) && mNotYetReacted != null) {
+        if (flavour.equals(Aux.GROUP_C) && mNotYetReacted != null) {
             sendEmojiReceipt(mNotYetReacted);
         }
+        /* hide keyboard */
+        ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE))
+                .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
     }
 
     @AfterPermissionGranted(123)

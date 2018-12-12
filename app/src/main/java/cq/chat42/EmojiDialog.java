@@ -59,60 +59,60 @@ public class EmojiDialog extends AppCompatDialogFragment {
         emojiBtnFlushed = view.findViewById(R.id.emoji_btn_flushed);
         emojiBtnDisappointed = view.findViewById(R.id.emoji_btn_disapp);
 
-        emojiBtnWink.setText(aux.EMOJI_WINK);
-        emojiBtnTong.setText(aux.EMOJI_TONG);
-        emojiBtnTongWink.setText(aux.EMOJI_TONG_WINK);
-        emojiBtnSmirk.setText(aux.EMOJI_SMIRK);
-        emojiBtnSmile.setText(aux.EMOJI_SMILE);
-        emojiBtnScream.setText(aux.EMOJI_SCREAM);
-        emojiBtnRelaxed.setText(aux.EMOJI_RELAXED);
-        emojiBtnRage.setText(aux.EMOJI_RAGE);
-        emojiBtnLaughing.setText(aux.EMOJI_LAUGHING);
-        emojiBtnKissing.setText(aux.EMOJI_KISSING);
-        emojiBtnFlushed.setText(aux.EMOJI_FLUSHED);
-        emojiBtnDisappointed.setText(aux.EMOJI_DISAPPOINTED);
+        emojiBtnWink.setText(Aux.EMOJI_WINK);
+        emojiBtnTong.setText(Aux.EMOJI_TONG);
+        emojiBtnTongWink.setText(Aux.EMOJI_TONG_WINK);
+        emojiBtnSmirk.setText(Aux.EMOJI_SMIRK);
+        emojiBtnSmile.setText(Aux.EMOJI_SMILE);
+        emojiBtnScream.setText(Aux.EMOJI_SCREAM);
+        emojiBtnRelaxed.setText(Aux.EMOJI_RELAXED);
+        emojiBtnRage.setText(Aux.EMOJI_RAGE);
+        emojiBtnLaughing.setText(Aux.EMOJI_LAUGHING);
+        emojiBtnKissing.setText(Aux.EMOJI_KISSING);
+        emojiBtnFlushed.setText(Aux.EMOJI_FLUSHED);
+        emojiBtnDisappointed.setText(Aux.EMOJI_DISAPPOINTED);
 
 
 
         emojiBtnWink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.getSelectedEmoji(aux.EMOJI_WINK);
+                listener.getSelectedEmoji(Aux.EMOJI_WINK);
             }
         });
 
         emojiBtnTong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.getSelectedEmoji(aux.EMOJI_TONG);
+                listener.getSelectedEmoji(Aux.EMOJI_TONG);
             }
         });
 
         emojiBtnTongWink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.getSelectedEmoji(aux.EMOJI_TONG_WINK);
+                listener.getSelectedEmoji(Aux.EMOJI_TONG_WINK);
             }
         });
 
         emojiBtnSmirk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.getSelectedEmoji(aux.EMOJI_SMIRK);
+                listener.getSelectedEmoji(Aux.EMOJI_SMIRK);
             }
         });
 
         emojiBtnSmile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.getSelectedEmoji(aux.EMOJI_SMILE);
+                listener.getSelectedEmoji(Aux.EMOJI_SMILE);
             }
         });
 
         emojiBtnScream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.getSelectedEmoji(aux.EMOJI_SCREAM);
+                listener.getSelectedEmoji(Aux.EMOJI_SCREAM);
             }
         });
 
@@ -120,42 +120,42 @@ public class EmojiDialog extends AppCompatDialogFragment {
         emojiBtnRelaxed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.getSelectedEmoji(aux.EMOJI_RELAXED);
+                listener.getSelectedEmoji(Aux.EMOJI_RELAXED);
             }
         });
 
         emojiBtnRage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.getSelectedEmoji(aux.EMOJI_RAGE);
+                listener.getSelectedEmoji(Aux.EMOJI_RAGE);
             }
         });
 
         emojiBtnLaughing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.getSelectedEmoji(aux.EMOJI_LAUGHING);
+                listener.getSelectedEmoji(Aux.EMOJI_LAUGHING);
             }
         });
 
         emojiBtnKissing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.getSelectedEmoji(aux.EMOJI_KISSING);
+                listener.getSelectedEmoji(Aux.EMOJI_KISSING);
             }
         });
 
         emojiBtnFlushed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.getSelectedEmoji(aux.EMOJI_FLUSHED);
+                listener.getSelectedEmoji(Aux.EMOJI_FLUSHED);
             }
         });
 
         emojiBtnDisappointed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.getSelectedEmoji(aux.EMOJI_DISAPPOINTED);
+                listener.getSelectedEmoji(Aux.EMOJI_DISAPPOINTED);
             }
         });
 

@@ -56,20 +56,6 @@
             app:layout_anchor="@id/fab_current_emoji"
             app:layout_anchorGravity="center" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_read_new_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            app:backgroundTint="@color/colorAccent"
-            app:layout_constraintBottom_toTopOf="@+id/coordinator_layout_chat"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
-
         <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
             android:id="@+id/swipe_layout"
 
@@ -118,7 +104,7 @@
             android:background="@android:color/transparent"
             android:hint="Type a message"
             android:inputType="textAutoCorrect|textAutoComplete|textMultiLine"
-            android:maxLength="1000"
+            android:maxLines="9"
             android:textSize="20sp"
             app:x_disableClear="true"
             app:x_disableEmoji="true" />

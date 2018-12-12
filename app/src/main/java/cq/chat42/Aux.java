@@ -38,6 +38,7 @@ public class Aux extends Application {
 
     public static final float ALPHA_TRANSPARENT = 0;
     public static final float ALPHA_DISABLED = (float) .1;
+    public static final float ALPHA_HALF = (float) .5;
     public static final float ALPHA_FULL = 1;
 
     private static final int SECOND_MILLIS = 1000;
@@ -67,11 +68,7 @@ public class Aux extends Application {
     }
 
     public boolean trialIsOver(long partnered) {
-        if (0 < timeLeftForTrial(partnered)) {
-            return false;
-        } else {
-            return true;
-        }
+        return 0 >= timeLeftForTrial(partnered);
     }
 
     public long timeLeftForTrial(long partnered) {

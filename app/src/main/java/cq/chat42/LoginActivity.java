@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         aux = new Aux(getApplicationContext());
-        snackbarInternet = Snackbar.make(findViewById(R.id.constraint_layout), aux.MSG_ERR_INTERNET, Snackbar.LENGTH_LONG);
+        snackbarInternet = Snackbar.make(findViewById(R.id.constraint_layout), Aux.MSG_ERR_INTERNET, Snackbar.LENGTH_LONG);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         progress = findViewById(R.id.progress);
         progress.setVisibility(View.INVISIBLE);
 
-        String regexPassword = "((?=.*[a-z]).{5,64})";
+        String regexPassword = "[a-zA-Z]{6,64}";
         mAwesomeValidation.addValidation(LoginActivity.this, R.id.login_email, android.util.Patterns.EMAIL_ADDRESS, R.string.err_email);
         mAwesomeValidation.addValidation(LoginActivity.this, R.id.login_password, regexPassword, R.string.err_password);
 

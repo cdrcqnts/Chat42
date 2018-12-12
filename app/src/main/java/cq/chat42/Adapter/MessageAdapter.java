@@ -10,8 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -65,8 +69,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-//        Chat chat = mChat.get(position);
-//        holder.show_message.setText(chat.getMessage());
         Chat chat = mChat.get(position);
 
         switch (holder.getItemViewType()) {
@@ -94,19 +96,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
         return mChat.size();
     }
 
-//    public class ViewHolder extends  RecyclerView.ViewHolder {
-//        public TextView show_message;
-//        public TextView email;
-//
-//
-//        public ViewHolder(View itemView) {
-//            super(itemView);
-//
-//            show_message = itemView.findViewById(R.id.show_message);
-//
-//        }
-//    }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -132,8 +121,8 @@ public class MessageAdapter extends RecyclerView.Adapter {
             }
             return MSG_TYPE_LEFT;
         }
-    }
 
+    }
 
     private class RightMessageHolder extends RecyclerView.ViewHolder {
         TextView message, seen, delivered;
@@ -149,13 +138,14 @@ public class MessageAdapter extends RecyclerView.Adapter {
             message.setText(chat.getMessage());
 
             if (chat.getSeen() != null && !chat.getSeen().equals("")) {
-                String emojiCheck = mContext.getResources().getString(R.string.emoji_heavy_checkmark);
-                if (chat.getSeen().equals(emojiCheck)) {
-                    seen.setText(emojiCheck);
-                } else {
-                    seen.setText(chat.getSeen());
+                String emojiMouthless = mContext.getResources().getString(R.string.emoji_mouthless);
+                seen.setText(chat.getSeen());
+                if (chat.getSeen().equals(emojiMouthless)) {
+                    seen.setAlpha(Aux.ALPHA_HALF);
                 }
-                seen.setAlpha(aux.ALPHA_FULL);
+                else {
+                    seen.setAlpha(Aux.ALPHA_FULL);
+                }
             }
         }
     }
@@ -178,13 +168,14 @@ public class MessageAdapter extends RecyclerView.Adapter {
             time.setText(aux.getDayHourMinute(chat.getTime()));
 
             if (chat.getSeen() != null && !chat.getSeen().equals("")) {
-                String emojiCheck = mContext.getResources().getString(R.string.emoji_heavy_checkmark);
-                if (chat.getSeen().equals(emojiCheck)) {
-                    seen.setText(emojiCheck);
-                } else {
-                    seen.setText(chat.getSeen());
+                String emojiMouthless = mContext.getResources().getString(R.string.emoji_mouthless);
+                seen.setText(chat.getSeen());
+                if (chat.getSeen().equals(emojiMouthless)) {
+                    seen.setAlpha(Aux.ALPHA_HALF);
                 }
-                seen.setAlpha(aux.ALPHA_FULL);
+                else {
+                    seen.setAlpha(Aux.ALPHA_FULL);
+                }
             }
         }
     }
@@ -222,5 +213,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
             name.setText(mPusername);
         }
     }
+
+
 
 }

@@ -50,6 +50,9 @@ public class FindPartnerActivity extends AppCompatActivity {
     DatabaseReference reference;
     ProgressBar progress;
 
+    Intent intent;
+    String flavour;
+
 
 
     @Override
@@ -57,7 +60,7 @@ public class FindPartnerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_partner);
         aux = new Aux(getApplicationContext());
-        snackbarInternet = Snackbar.make(findViewById(R.id.constraint_layout), aux.MSG_ERR_INTERNET, Snackbar.LENGTH_LONG);
+        snackbarInternet = Snackbar.make(findViewById(R.id.constraint_layout), Aux.MSG_ERR_INTERNET, Snackbar.LENGTH_LONG);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,6 +72,9 @@ public class FindPartnerActivity extends AppCompatActivity {
         btn_search = findViewById(R.id.btn_pair);
         progress = findViewById(R.id.progress);
         progress.setVisibility(View.INVISIBLE);
+
+        intent = getIntent();
+        flavour = intent.getStringExtra("flavour");
 
         mAwesomeValidation.addValidation(FindPartnerActivity.this, R.id.find_partner_email, Patterns.EMAIL_ADDRESS, R.string.err_email);
 
@@ -94,7 +100,13 @@ public class FindPartnerActivity extends AppCompatActivity {
                                             User partner = entry.getValue(User.class);
                                             // does the potential partner have a partner already?
                                             if (partner.getPid() == null || partner.getPid().equals("")) {
-                                                pairUsers(currentUser.getUid(), partner);
+                                                if (partner.getVersion().equals(flavour)) {
+                                                    pairUsers(currentUser.getUid(), partner);
+                                                } else {
+                                                    enableBtnSearch();
+                                                    Snackbar snackbar = Snackbar.make(findViewById(R.id.constraint_layout), "This user's version code does not match yours.", Snackbar.LENGTH_SHORT);
+                                                    snackbar.show();
+                                                }
                                             } else {
                                                 // am i the partner?
                                                 // this happens if both users are in the FindPartnerActivity

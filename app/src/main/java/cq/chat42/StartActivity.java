@@ -78,8 +78,8 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void checkRestrictions() {
-        snackbarInternet = Snackbar.make(findViewById(R.id.constraint_layout), aux.MSG_ERR_INTERNET, Snackbar.LENGTH_INDEFINITE);
-        snackbarCamera = Snackbar.make(findViewById(R.id.constraint_layout), aux.MSG_ERR_CAMERA, Snackbar.LENGTH_INDEFINITE);
+        snackbarInternet = Snackbar.make(findViewById(R.id.constraint_layout), Aux.MSG_ERR_INTERNET, Snackbar.LENGTH_INDEFINITE);
+        snackbarCamera = Snackbar.make(findViewById(R.id.constraint_layout), Aux.MSG_ERR_CAMERA, Snackbar.LENGTH_INDEFINITE);
         snackbarInternet.setAction("Retry", new InternetListener());
         snackbarCamera.setAction("Retry", new CameraListener());
         if (aux.internetIsAvailable()) {
@@ -114,6 +114,7 @@ public class StartActivity extends AppCompatActivity {
                         // does the user have a partner?
                         if (user.getPid() == null || user.getPid().equals("")) {
                             intent = new Intent(StartActivity.this, FindPartnerActivity.class);
+                            intent.putExtra("flavour", user.getVersion());
                         } else {
                             intent = new Intent(StartActivity.this, MainActivity.class);
                             intent.putExtra("uid", user.getId());

@@ -3,8 +3,8 @@
 
     <!--Form Errors-->
     <string name="err_email">This is not a proper e-mail address.</string>
-    <string name="err_name">Must contain 3-21 characters and no spaces. Allowed are: a-z, A-Z.</string>
-    <string name="err_password">Must contain 5-64 characters and no spaces. Allowed are: a-z, A-Z, 0-9, point(.), dash(-), underscore(_).</string>
+    <string name="err_name">Must contain 3-21 characters and no spaces. Allowed are: a-z, A-Z. Example: "John"</string>
+    <string name="err_password">Must contain 6-64 characters and no spaces. Allowed are: a-z, A-Z. Example: "MySecretPassword"</string>
     <string name="err_password_confirmation">Passwords do not match.</string>
     <string name="err_version">Invalid Version Code.</string>
     <string name="err_pair">Email is invalid or already paired.</string>

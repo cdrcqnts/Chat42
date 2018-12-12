@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         aux = new Aux(getApplicationContext());
-        snackbarInternet = Snackbar.make(findViewById(R.id.constraint_layout), aux.MSG_ERR_INTERNET, Snackbar.LENGTH_LONG);
+        snackbarInternet = Snackbar.make(findViewById(R.id.constraint_layout), Aux.MSG_ERR_INTERNET, Snackbar.LENGTH_LONG);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
         progress.setVisibility(View.INVISIBLE);
 
         String regexUsername = "[a-zA-Z]{3,21}";
-        String regexPassword = "[a-zA-Z0-9\\._\\-]{3,}";;
+        String regexPassword = "[a-zA-Z]{6,64}";
         String regexVersion = Aux.GROUP_A + "|" + Aux.GROUP_B + "|" + Aux.GROUP_C;
 
         mAwesomeValidation.addValidation(RegisterActivity.this, R.id.register_username, regexUsername, R.string.err_name);
@@ -132,6 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Intent intent = new Intent(RegisterActivity.this, FindPartnerActivity.class);
+                                intent.putExtra("flavour", version);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 finish();
